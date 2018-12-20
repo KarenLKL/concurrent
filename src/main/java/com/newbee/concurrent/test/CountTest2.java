@@ -7,11 +7,11 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class CountTest {
+public class CountTest2 {
     public static int threadTotal = 200;
     public static int clientTotal = 5000;
 
-    public static AtomicInteger count = new AtomicInteger(0);
+    public static AtomicLong count = new AtomicLong(0L);
 
     public static void main(String[] args) throws InterruptedException {
         final ExecutorService executorService = Executors.newCachedThreadPool();

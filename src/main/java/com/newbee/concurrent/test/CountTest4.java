@@ -4,14 +4,13 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class CountTest {
+public class CountTest4 {
     public static int threadTotal = 200;
     public static int clientTotal = 5000;
 
-    public static AtomicInteger count = new AtomicInteger(0);
+    public static AtomicBoolean isHappen=new AtomicBoolean(false);
 
     public static void main(String[] args) throws InterruptedException {
         final ExecutorService executorService = Executors.newCachedThreadPool();
@@ -21,7 +20,7 @@ public class CountTest {
             executorService.execute(() -> {
                 try {
                     semaphore.acquire();
-                    add();
+                    handler();
                     semaphore.release();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -32,10 +31,11 @@ public class CountTest {
         }
         countDownLatch.await();
         executorService.shutdown();
-        System.out.println(String.format("last count:%s", count.get()));
     }
 
-    private static void add() {
-        count.incrementAndGet();
+    private static void handler() {
+        if(isHappen.compareAndSet(false,true)){
+            System.out.println("执行了一次");
+        }
     }
 }
